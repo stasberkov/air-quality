@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "air quality monitor for esp32",
   "main": "app.js",
+  "repository": {
+    "url": "https://github.com/stasberkov/air-quality"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -29,6 +29,9 @@
             "label": "espurino-console",
             "type": "shell",
             "command": "espruino --board ESP32 -b 115200 --color --port COM3 -w ${cwd}\\dist\\bundle.js",
+            "options": {
+                "cwd": "${cwd}\\dist"
+            },
             "problemMatcher": [],
             "presentation": {
                 "echo": true,
