@@ -4,7 +4,9 @@ const tsProject = ts.createProject('tsconfig.json');
 const fs = require("fs");
 const { fork } = require('child_process');
 const path = require("path");
+const yaml = require("js-yaml");
 
+const config = yaml.load(fs.readFileSync("config.yaml"));
 const distDir = "./dist";
 const espReadyBundleFileName = "bundle.js";
 const espReadyBundlePath = path.join(distDir, espReadyBundleFileName);
@@ -17,7 +19,7 @@ gulp.task("build", ["prepare-for-espruino"]);
 gulp.task("prepare-for-espruino", ['compile-ts', 'content-to-dist'], (cb) => {
     const buildproc = fork(
         require.resolve("espruino/bin/espruino-cli"),
-        ["--board", "ESP32", appFileName, "-o", espReadyBundleFileName],
+        ["--board", config.board, appFileName, "-o", espReadyBundleFileName],
         { cwd: distDir });
     buildproc.on('close', (code) => {
         cb();
@@ -49,7 +51,7 @@ gulp.task("send-to-espurino-console", (cb) => {
 gulp.task("espruino-console", ["send-to-espurino-console"], (cb) => {
     const buildproc = fork(
         require.resolve("espruino/bin/espruino-cli"),
-        ["--board", "ESP32", "-b", "115200", "--port", "COM3", "-w", espConsoleBeingWatchedFileName],
+        ["--board", config.board, "-b", config.port_speed, "--port", config.port, "-w", espConsoleBeingWatchedFileName],
         { cwd: distDir });
     buildproc.on('close', (code) => {
         cb();

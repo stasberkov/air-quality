@@ -8,17 +8,11 @@ sht31Sensor.reset();
 
 function measure() {
     sht31Sensor.measure().then(x => {
-        console.log(x.t);
-        console.log(x.rh);
+        console.log("T  = ", x.t);
+        console.log("RH = ", x.rh);
     });
 }
 
-function onInit() {
-    setTimeout(() => {
-        measure();
-    }, 100);
-}
-
-setTimeout(() => {
+setInterval(() => {
     measure();
-}, 100);
+}, 10000);
