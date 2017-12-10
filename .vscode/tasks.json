@@ -4,40 +4,35 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "app-to-dist",
-            "type": "gulp",
+            "label": "build",
             "group": "build",
-            "task": "app-to-dist",
+            "type": "gulp",
+            "task": "build",
             "problemMatcher": [
                 "$gulp-tsc"
-            ]
+            ],
+            "presentation": {
+                "focus": true
+            }
         },
         {
-            "label": "espurino-prepare",
+            "label": "send-to-espurino-console",
             "group": "build",
-            "type": "shell",
+            "type": "gulp",
+            "task": "send-to-espurino-console",
+            "problemMatcher": [],
             "presentation": {
-                "reveal": "never"
-            },
-            "command": "espruino --board ESP32 app.js -o bundle.js",
-            "options": {
-                "cwd": "${cwd}\\dist"
-            },
-            "problemMatcher": []
+                "focus": true
+            }
         },
         {
             "label": "espurino-console",
-            "type": "shell",
-            "command": "espruino --board ESP32 -b 115200 --color --port COM3 -w ${cwd}\\dist\\bundle.js",
-            "options": {
-                "cwd": "${cwd}\\dist"
-            },
+            "group": "build",
+            "type": "gulp",
+            "task": "espruino-console",
             "problemMatcher": [],
             "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": true,
-                "panel": "dedicated"
+                "focus": true
             }
         }
     ]
