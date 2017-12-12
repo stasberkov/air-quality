@@ -46,7 +46,7 @@ export class SHT31Sensor {
     }
 
     public measure () {
-        return new Promise( (fullfil, reject) => {
+        return new Promise<{t: number | undefined, rh: number | undefined}>( (fullfil, reject) => {
             this.i2c.writeTo(this.addr, sht31Command.measureForSsda);
             setTimeout(() => {
                 const data = this.i2c.readFrom(this.addr, 6);

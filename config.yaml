@@ -1,5 +1,5 @@
 # Port where mcu device is located
-port: COM3
+port: COM4
 
 # ESP32 after flash has 115200 speed.
 port_speed: 115200

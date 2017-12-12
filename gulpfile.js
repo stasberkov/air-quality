@@ -48,7 +48,17 @@ gulp.task("send-to-espurino-console", (cb) => {
         });
 });
 
-gulp.task("espruino-console", ["send-to-espurino-console"], (cb) => {
+gulp.task("clear-espurino-watch-file", (cb) => {
+    fs.writeFile(
+        espConsoleBeingWatchedFilePath,
+        "",
+        (err) => {
+            if (err) { throw err; }
+            cb();
+        });
+});
+
+gulp.task("espruino-console", ["clear-espurino-watch-file"], (cb) => {
     const buildproc = fork(
         require.resolve("espruino/bin/espruino-cli"),
         ["--board", config.board, "-b", config.port_speed, "--port", config.port, "-w", espConsoleBeingWatchedFileName],
