@@ -1,0 +1,14 @@
+wifiSsid: <sample-ssid>
+wifiPassword: <pass>
+
+influxHost: <some-host>
+influxPort: 8086
+influxDbName: air_quality
+influxUserName: root
+influxPassword: root
+influxAgentName: ESPRUINO
+
+influxMeasurement: air_quality
+influxLocationTag: <some-location>
+
+refreshPeriodSec: 10

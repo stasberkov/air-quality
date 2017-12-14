@@ -1,22 +1,8 @@
-export = 0; // [sberkov] magic that removes 'Object.defineProperty(exports, "__esModule", { value: true });' in generated code.
 import wifi = require("Wifi");
 import mhz19 = require("./mh-z19");
 import sht31 = require("./sht31");
 import influxDB = require("InfluxDB");
-
-const refreshPeriodSec = 10;
-const influxDBParams = {
-    influxDBHost: "",          // Host IP address or URL without "http://".
-    influxPort: 8086,                   // InfluxDB server port.
-    influxDBName: "air_quality",       // Database name (measurement).
-    influxUserName: "root",             // User name account (must have write permission).
-    influxPassword: "root",             // User password.
-    influxAgentName: "ESPRUINO"         // Device name in HTTP headers.
-};
-const wifiParams= {
-    ssid: "",
-    password: ""
-}
+import appConfig = require("./app-config");
 
 const sht31Sensor = new sht31.SHT31Sensor(I2C1, 0x44);
 const mhz19Sensor = new mhz19.MhZ19Sensor(Serial2);
@@ -69,18 +55,25 @@ function collectAndReportMetrics() {
 }
 
 function onInit() {
-    influxDB.setup(influxDBParams);
+    influxDB.setup({
+        influxDBHost: appConfig.default.influxHost,
+        influxPort: appConfig.default.influxPort,
+        influxDBName: appConfig.default.influxDbName,
+        influxUserName: appConfig.default.influxUserName,
+        influxPassword: appConfig.default.influxPassword,
+        influxAgentName: appConfig.default.influxAgentName
+    });
     I2C1.setup({ scl: D4, sda: D0 });
     Serial2.setup(9600, { rx: D16, tx: D17 });
     sht31Sensor.reset();
     wifi.connect(
-        wifiParams.ssid,
-        { password: wifiParams.password },
+        appConfig.default.wifiSsid,
+        { password: appConfig.default.wifiPassword },
         (err) => {
             if (!err) {
                 console.log("connected");
             }
         });
 
-    setInterval(collectAndReportMetrics, refreshPeriodSec * 1000);
+    setInterval(collectAndReportMetrics, appConfig.default.refreshPeriodSec * 1000);
 }
