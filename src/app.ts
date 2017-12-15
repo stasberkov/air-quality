@@ -46,7 +46,7 @@ function collectAndReportMetrics() {
 
             if (vals.length > 0) {
                 const valstring = vals.join(",");
-                const data = `air_quality,location=samara6-1 ${valstring}\n`;
+                const data = `${appConfig.default.influxMeasurement},location=${appConfig.default.influxLocationTag} ${valstring}\n`;
                 console.log(data);
                 //influxDB.write(data);
                 blink();
