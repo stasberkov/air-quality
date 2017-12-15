@@ -25,6 +25,7 @@ declare interface Serial extends Object {
     write(data: any[]): any;
     on(event: string, handler: (data: any) => any): any;
     setup(boudrate: number, options: any): any;
+    read(chars?: number): string;
 }
 
 declare interface Object {

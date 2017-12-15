@@ -16,17 +16,19 @@ export class MhZ19Sensor {
     }
 
     public measure(): Promise<number> {
+        this.serial.read(); // flush the buffer;
         const self = this;
         return new Promise((fulfill, reject) => {
             const handler = function (str: string) {
                 self.serial.removeListener('data', handler);
+                var c = new Object();
                 var bytes = new Uint8Array(E.toArrayBuffer(str));
                 if (bytes.length < 9) {
-                    reject("bad data");
+                    reject("bad data: " + bytes);
                 }
                 const checksum = self.calcCheckSum(bytes);
                 if (bytes[8] != checksum) {
-                    reject("checksum error");
+                    reject("checksum error: " + bytes);
                 }
                 const co2 = bytes[2] * 256 + bytes[3];
                 fulfill(co2);
