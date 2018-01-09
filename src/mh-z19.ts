@@ -44,3 +44,7 @@ export class MhZ19Sensor {
         });
     }
 }
+
+export function connect(serial: Serial) {
+    return new MhZ19Sensor(serial);
+}

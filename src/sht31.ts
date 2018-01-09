@@ -4,10 +4,17 @@ const sht31Command = {
 }
 
 export class SHT31Sensor {
+    private readonly addr: number;
+
     constructor(
         private readonly i2c: I2C,
-        private readonly addr: number
+        add: boolean = false
     ) {
+        if (add) {
+            this.addr = 0x45;
+        } else {
+            this.addr = 0x44;
+        }
     }
 
     private checksum(data: number[]) {
@@ -26,7 +33,7 @@ export class SHT31Sensor {
         return crc;
     }
 
-    private parseResult(res: number[]) {
+    private parseResult(res: ArrayLike<number>) {
         var temp = undefined;
         var rh = undefined;
 
@@ -59,4 +66,10 @@ export class SHT31Sensor {
     public reset () {
         this.i2c.writeTo(this.addr, sht31Command.reset);
     };
+}
+
+export function connect(port: I2C, add: boolean = false) {
+    const sens = new SHT31Sensor(port, add);
+    sens.reset();
+    return sens;
 }

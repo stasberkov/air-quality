@@ -17,6 +17,7 @@
     "gulp-typescript": "^3.2.3",
     "js-yaml": "^3.10.0",
     "lodash": "^4.17.4",
-    "typescript": "^2.6.2"
+    "typescript": "^2.6.2",
+    "@types/espruino": "1.94.0"
   }
 }
